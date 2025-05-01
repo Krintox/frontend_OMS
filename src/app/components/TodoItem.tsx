@@ -1,5 +1,5 @@
 import { Todo } from '../interfaces/Todo';
-import { FaTrash, FaCheck, FaUndo, FaTruck, FaBoxOpen, FaPrint } from 'react-icons/fa';
+import { FaTrash, FaCheck, FaTruck, FaBoxOpen, FaPrint } from 'react-icons/fa';
 import { useState } from 'react';
 
 const statusOptions = [
@@ -56,7 +56,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onAccept, currentUserId, isAdmin }
     };
 
     const canAccept = todo.status === 'AVAILABLE' && !isAdmin && onAccept;
-    const canUpdate = todo.userId === currentUserId;
+    // const canUpdate = todo.userId === currentUserId;
     console.log(todo.userId);
     const canDelete = isAdmin;
 

@@ -15,17 +15,21 @@ export const useTodos = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    
     const fetchTodos = async (): Promise<boolean> => {
         try {
             setLoading(true);
             const response = await getOrders();
             setTodos(response.data);
             return true;
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to fetch orders');
+        } catch (err: unknown) {
+            if (err instanceof Error && 'response' in err && typeof err.response === 'object') {
+                const message = (err as any).response?.data?.message || 'Some default error';
+                setError(message);
+            } else {
+                setError('An unknown error occurred');
+            }
             return false;
-        } finally {
-            setLoading(false);
         }
     };
 

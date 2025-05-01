@@ -13,7 +13,8 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [role, setRole] = useState('DISTRIBUTOR');
+    // const [role, setRole] = useState('DISTRIBUTOR');
+    const role = 'DISTRIBUTOR';
     const [region, setRegion] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
@@ -32,6 +33,7 @@ export default function Register() {
             });            
             router.push('/');
         } catch (error) {
+            console.log(error);
             toast.error('Registration failed. Please try again.');
         } finally {
             setLoading(false);

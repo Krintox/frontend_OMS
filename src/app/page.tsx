@@ -50,6 +50,7 @@ export default function Home() {
             }
             return success;
         } catch (err) {
+            console.log(err);
             toast.error('Failed to create order');
             return false;
         }
@@ -63,6 +64,7 @@ export default function Home() {
             }
             return success;
         } catch (err) {
+            console.log(err);
             toast.error('Failed to update order status');
             return false;
         }
@@ -76,6 +78,7 @@ export default function Home() {
             }
             return success;
         } catch (err) {
+            console.log(err);
             toast.error('Failed to delete order');
             return false;
         }
@@ -89,6 +92,7 @@ export default function Home() {
             }
             return success;
         } catch (err) {
+            console.log(err);
             toast.error('Failed to accept order');
             return false;
         }
