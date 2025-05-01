@@ -6,20 +6,35 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 
 export default function Register() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        name: ''
+    });
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const router = useRouter();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await register(email, password, name);
+            await register({
+                email: formData.email,
+                password: formData.password,
+                name: formData.name
+            });
             router.push('/');
         } catch (error) {
+            console.log(error);
             toast.error('Registration failed. Please try again.');
         } finally {
             setLoading(false);
@@ -46,8 +61,8 @@ export default function Register() {
                                     type="text"
                                     autoComplete="name"
                                     required
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>
@@ -64,8 +79,8 @@ export default function Register() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>
@@ -82,8 +97,8 @@ export default function Register() {
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={formData.password}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>

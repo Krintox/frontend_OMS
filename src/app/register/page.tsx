@@ -10,24 +10,34 @@ import Link from 'next/link';
 const regions = ['NORTH', 'SOUTH', 'EAST', 'WEST', 'CENTRAL'];
 
 export default function Register() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [region, setRegion] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        name: '',
+        region: ''
+    });
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const router = useRouter();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await register({ 
-                email, 
-                password, 
-                name,
+            await register({
+                email: formData.email,
+                password: formData.password,
+                name: formData.name,
                 role: 'DISTRIBUTOR',
-                region
+                region: formData.region
             });
             router.push('/');
         } catch (error) {
@@ -57,8 +67,8 @@ export default function Register() {
                                     type="text"
                                     autoComplete="name"
                                     required
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>
@@ -75,8 +85,8 @@ export default function Register() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>
@@ -93,8 +103,8 @@ export default function Register() {
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={formData.password}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 />
                             </div>
@@ -109,8 +119,8 @@ export default function Register() {
                                     id="region"
                                     name="region"
                                     required
-                                    value={region}
-                                    onChange={(e) => setRegion(e.target.value)}
+                                    value={formData.region}
+                                    onChange={handleChange}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 >
                                     <option value="">Select a region</option>

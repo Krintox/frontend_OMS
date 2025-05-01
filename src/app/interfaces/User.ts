@@ -1,6 +1,5 @@
-// src/app/interfaces/User.ts
 export interface User {
-    id: string;  // Add this line
+    id: string;
     email: string;
     name: string;
     token: string;

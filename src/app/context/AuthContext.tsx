@@ -7,7 +7,13 @@ import { login as authLogin, register as authRegister, logout as authLogout, get
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (data: { email: string; password: string; name: string; role?: string; region?: string }) => Promise<void>;
+    register: (data: { 
+        email: string; 
+        password: string; 
+        name: string; 
+        role?: string; 
+        region?: string 
+    }) => Promise<void>;
     logout: () => void;
     loading: boolean;
 }
@@ -29,7 +35,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(user);
     };
 
-    const register = async (data: { email: string; password: string; name: string; role?: string; region?: string }) => {
+    const register = async (data: { 
+        email: string; 
+        password: string; 
+        name: string; 
+        role?: string; 
+        region?: string 
+    }) => {
         const user = await authRegister(data);
         setUser(user);
     };

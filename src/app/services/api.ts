@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 import { getCurrentUser } from './auth';
 import { Todo } from '../interfaces/Todo';
 
-interface ApiResponse<T> {
-    data: T;
-}
+// interface ApiResponse<T> {
+//     data: T;
+// }
 
 const api = axios.create({
     baseURL: 'https://sure-ariel-krintox-cc074f1e.koyeb.app/api',

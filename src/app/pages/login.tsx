@@ -19,6 +19,7 @@ export default function Login() {
             await login(email, password);
             router.push('/');
         } catch (error) {
+            console.log(error);
             toast.error('Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
