@@ -41,6 +41,7 @@ export default function Register() {
             });
             router.push('/');
         } catch (error) {
+            console.log(error);
             toast.error('Registration failed. Please try again.');
         } finally {
             setLoading(false);
