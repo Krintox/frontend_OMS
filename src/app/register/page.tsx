@@ -32,8 +32,7 @@ export default function Register() {
                 region
             });            
             router.push('/');
-        } catch (error) {
-            console.log(error);
+        } catch {
             toast.error('Registration failed. Please try again.');
         } finally {
             setLoading(false);

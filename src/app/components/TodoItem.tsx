@@ -20,7 +20,7 @@ interface TodoItemProps {
     isAdmin?: boolean;
 }
 
-const TodoItem = ({ todo, onToggle, onDelete, onAccept, currentUserId, isAdmin }: TodoItemProps) => {
+const TodoItem = ({ todo, onToggle, onDelete, onAccept, isAdmin }: TodoItemProps) => {
     const [isToggling, setIsToggling] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isAccepting, setIsAccepting] = useState(false);

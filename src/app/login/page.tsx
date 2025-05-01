@@ -20,8 +20,7 @@ export default function Login() {
         try {
             await login(email, password);
             router.push('/');
-        } catch (error) {
-            console.error(error);
+        } catch {
             toast.error('Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
@@ -98,7 +97,7 @@ export default function Login() {
 
                         <div className="mt-6">
                             <p className="text-center text-sm text-gray-600">
-                                Don&apos;t have an account?{' '}
+                                Don&apos;t have an account?
                                 <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
                                     Register here
                                 </Link>
