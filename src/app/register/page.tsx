@@ -13,8 +13,6 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    // const [role, setRole] = useState('DISTRIBUTOR');
-    const role = 'DISTRIBUTOR';
     const [region, setRegion] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
@@ -30,9 +28,9 @@ export default function Register() {
                 name,
                 role: 'DISTRIBUTOR',
                 region
-            });            
+            });
             router.push('/');
-        } catch {
+        } catch (error) {
             toast.error('Registration failed. Please try again.');
         } finally {
             setLoading(false);
@@ -102,46 +100,26 @@ export default function Register() {
                             </div>
                         </div>
 
-                        {/* <div>
-                            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                                Role
+                        <div>
+                            <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                                Region
                             </label>
                             <div className="mt-1">
                                 <select
-                                    id="role"
-                                    name="role"
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value)}
+                                    id="region"
+                                    name="region"
+                                    required
+                                    value={region}
+                                    onChange={(e) => setRegion(e.target.value)}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 >
-                                    <option value="ADMIN">Admin</option>
-                                    <option value="DISTRIBUTOR">Distributor</option>
+                                    <option value="">Select a region</option>
+                                    {regions.map((region) => (
+                                        <option key={region} value={region}>{region}</option>
+                                    ))}
                                 </select>
                             </div>
-                        </div> */}
-
-                        {role === 'DISTRIBUTOR' && (
-                            <div>
-                                <label htmlFor="region" className="block text-sm font-medium text-gray-700">
-                                    Region
-                                </label>
-                                <div className="mt-1">
-                                    <select
-                                        id="region"
-                                        name="region"
-                                        required
-                                        value={region}
-                                        onChange={(e) => setRegion(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                    >
-                                        <option value="">Select a region</option>
-                                        {regions.map(region => (
-                                            <option key={region} value={region}>{region}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                        )}
+                        </div>
 
                         <div>
                             <button
