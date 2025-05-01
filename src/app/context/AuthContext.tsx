@@ -2,12 +2,12 @@
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { User } from '../interfaces/User';
-import { getCurrentUser, login as authLogin, register as authRegister, logout as authLogout } from '../services/auth';
+import { login as authLogin, register as authRegister, logout as authLogout, getCurrentUser } from '../services/auth';
 
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string, name: string) => Promise<void>;
+    register: (data: { email: string; password: string; name: string; role?: string; region?: string }) => Promise<void>;
     logout: () => void;
     loading: boolean;
 }
@@ -27,13 +27,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (email: string, password: string) => {
         const user = await authLogin(email, password);
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
     };
 
-    const register = async (email: string, password: string, name: string) => {
-        const user = await authRegister(email, password, name);
+    const register = async (data: { email: string; password: string; name: string; role?: string; region?: string }) => {
+        const user = await authRegister(data);
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
     };
 
     const logout = () => {

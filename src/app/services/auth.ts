@@ -3,13 +3,23 @@ import { User } from '../interfaces/User';
 
 const API_URL = 'http://localhost:8080/api/auth';
 
-export const register = async (email: string, password: string, name: string): Promise<User> => {
-    const response = await axios.post(`${API_URL}/register`, { email, password, name });
+interface RegisterData {
+    email: string;
+    password: string;
+    name: string;
+    role?: string;
+    region?: string;
+}
+
+export const register = async (data: RegisterData): Promise<User> => {
+    const response = await axios.post(`${API_URL}/register`, data);
+    localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
 };
 
 export const login = async (email: string, password: string): Promise<User> => {
     const response = await axios.post(`${API_URL}/login`, { email, password });
+    localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
 };
 

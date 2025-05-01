@@ -4,4 +4,8 @@ export interface Todo {
     description: string;
     completed: boolean;
     createdAt?: string;
+    userId?: string;
+    region?: string;
+    status?: string;
+    adminId?: string;
 }

@@ -1,7 +1,14 @@
-// src/hooks/useTodos.ts
 import { useEffect, useState } from 'react';
 import { Todo } from '../interfaces/Todo';
-import { getTodos, createTodo, updateTodo, deleteTodo } from '../services/api';
+import { 
+    getOrders, 
+    createOrder, 
+    updateOrder, 
+    deleteOrder,
+    acceptOrder,
+    getOrdersByRegion,
+    getOrdersByStatus
+} from '../services/api';
 
 export const useTodos = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -11,12 +18,11 @@ export const useTodos = () => {
     const fetchTodos = async (): Promise<boolean> => {
         try {
             setLoading(true);
-            const response = await getTodos();
+            const response = await getOrders();
             setTodos(response.data);
             return true;
-        } catch (err) {
-            setError('Failed to fetch todos');
-            console.error(err);
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to fetch orders');
             return false;
         } finally {
             setLoading(false);
@@ -25,44 +31,73 @@ export const useTodos = () => {
 
     const addTodo = async (todo: Omit<Todo, 'id'>): Promise<boolean> => {
         try {
-            const response = await createTodo(todo);
+            const response = await createOrder(todo);
             setTodos([...todos, response.data]);
             return true;
-        } catch (err) {
-            setError('Failed to add todo');
-            console.error(err);
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to add order');
             return false;
         }
     };
 
-    const toggleTodo = async (id: string): Promise<boolean> => {
+    const toggleTodo = async (id: string, status: string): Promise<boolean> => {
         try {
-            const todoToUpdate = todos.find(todo => todo.id === id);
-            if (todoToUpdate) {
-                const updatedTodo = await updateTodo(id, {
-                    ...todoToUpdate,
-                    completed: !todoToUpdate.completed
-                });
-                setTodos(todos.map(todo => todo.id === id ? updatedTodo.data : todo));
-                return true;
-            }
-            return false;
-        } catch (err) {
-            setError('Failed to update todo');
-            console.error(err);
+            const response = await updateOrder(id, { status });
+            setTodos(todos.map(todo => todo.id === id ? response.data : todo));
+            return true;
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to update order status');
             return false;
         }
     };
 
     const removeTodo = async (id: string): Promise<boolean> => {
         try {
-            await deleteTodo(id);
+            await deleteOrder(id);
             setTodos(todos.filter(todo => todo.id !== id));
             return true;
-        } catch (err) {
-            setError('Failed to delete todo');
-            console.error(err);
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to delete order');
             return false;
+        }
+    };
+
+    const handleAcceptOrder = async (id: string): Promise<boolean> => {
+        try {
+            const response = await acceptOrder(id);
+            setTodos(todos.map(todo => todo.id === id ? response.data : todo));
+            return true;
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to accept order');
+            return false;
+        }
+    };
+
+    const fetchByRegion = async (region: string): Promise<boolean> => {
+        try {
+            setLoading(true);
+            const response = await getOrdersByRegion(region);
+            setTodos(response.data);
+            return true;
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to fetch orders by region');
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchByStatus = async (status: string): Promise<boolean> => {
+        try {
+            setLoading(true);
+            const response = await getOrdersByStatus(status);
+            setTodos(response.data);
+            return true;
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to fetch orders by status');
+            return false;
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -76,7 +111,10 @@ export const useTodos = () => {
         error, 
         addTodo, 
         toggleTodo, 
-        removeTodo, 
+        removeTodo,
+        handleAcceptOrder,
+        fetchByRegion,
+        fetchByStatus,
         fetchTodos 
     };
 };

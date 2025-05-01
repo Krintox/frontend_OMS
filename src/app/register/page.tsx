@@ -7,10 +7,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 
+const regions = ['NORTH', 'SOUTH', 'EAST', 'WEST', 'CENTRAL'];
+
 export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [role, setRole] = useState('DISTRIBUTOR');
+    const [region, setRegion] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const router = useRouter();
@@ -19,7 +23,13 @@ export default function Register() {
         e.preventDefault();
         setLoading(true);
         try {
-            await register(email, password, name);
+            await register({ 
+                email, 
+                password, 
+                name,
+                role: 'DISTRIBUTOR',
+                region
+            });            
             router.push('/');
         } catch (error) {
             toast.error('Registration failed. Please try again.');
@@ -90,6 +100,47 @@ export default function Register() {
                                 />
                             </div>
                         </div>
+
+                        {/* <div>
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                                Role
+                            </label>
+                            <div className="mt-1">
+                                <select
+                                    id="role"
+                                    name="role"
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                >
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="DISTRIBUTOR">Distributor</option>
+                                </select>
+                            </div>
+                        </div> */}
+
+                        {role === 'DISTRIBUTOR' && (
+                            <div>
+                                <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                                    Region
+                                </label>
+                                <div className="mt-1">
+                                    <select
+                                        id="region"
+                                        name="region"
+                                        required
+                                        value={region}
+                                        onChange={(e) => setRegion(e.target.value)}
+                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    >
+                                        <option value="">Select a region</option>
+                                        {regions.map(region => (
+                                            <option key={region} value={region}>{region}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        )}
 
                         <div>
                             <button
