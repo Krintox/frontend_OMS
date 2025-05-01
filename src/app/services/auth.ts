@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '../interfaces/User';
 
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = 'https://sure-ariel-krintox-cc074f1e.koyeb.app/api/auth';
 
 interface RegisterData {
     email: string;

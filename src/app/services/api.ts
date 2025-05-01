@@ -3,7 +3,7 @@ import { getCurrentUser } from './auth';
 import { Todo } from '../interfaces/Todo';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'https://sure-ariel-krintox-cc074f1e.koyeb.app/api',
 });
 
 api.interceptors.request.use((config) => {
