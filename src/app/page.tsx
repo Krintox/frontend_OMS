@@ -207,7 +207,7 @@ export default function Home() {
                             onToggle={handleToggleTodo} 
                             onDelete={handleDeleteTodo}
                             onAccept={!isAdmin ? acceptOrderHandler : undefined}
-                            currentUserId={user.id}
+                            currentUserId={user.email}
                             isAdmin={isAdmin}
                         />
                     )}
